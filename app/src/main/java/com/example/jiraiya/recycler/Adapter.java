@@ -72,18 +72,36 @@ public class Adapter extends RecyclerView.Adapter<MyViewHolder> {
         myViewHolder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                CustomDialog dialog_alert =new CustomDialog();
-                dialog_alert.show(((FragmentActivity)context).getSupportFragmentManager(),"dialog");
+//                CustomDialog dialog_alert =new CustomDialog(context);
+//                dialog_alert.setPositiveButton("Yes");
+//                dialog_alert.setNeagtiveButton("No");
+//                dialog_alert.setMessage("Are You Sure ?This is a better version of the simple list of items that we saw earlier.\n" +
+//                        "Each of the items in the list has a CheckBoxbeside it." +
+//                        " The isChecked boolean value returns the checkBox current state.");
+//                dialog_alert.setTitle("Are you sure?");
+//                dialog_alert.setCanceledOnTouchOutside(false);
+//                dialog_alert.show();
 
-                dialog_alert.setOnOptionClickListener(new CustomDialog.OnOptionClick() {
-                    @Override
-                    public void onResult(boolean status) {
-                        if(status)
-                            Toast.makeText(context, "True", Toast.LENGTH_SHORT).show();
-                        else
-                            Toast.makeText(context, "False", Toast.LENGTH_SHORT).show();
-                    }
-                });
+               final AlertAcknowledgement alertAcknowledgement = new AlertAcknowledgement(context);
+               alertAcknowledgement.setMessage("This is a better version of the simple list of items that we saw earlier" +
+                       ".Each of the items in the list has a CheckBoxbeside it." +
+                       "This is a better version of the simple list of items that we saw earlier." +
+                       "Each of the items in the list has a CheckBoxbeside it.");
+               alertAcknowledgement.setButtonText("Okies");
+               alertAcknowledgement.setTitle("Holla");
+               alertAcknowledgement.setCanceledOnTouchOutside(false);
+               //alertAcknowledgement.tryy();
+               alertAcknowledgement.show();
+               alertAcknowledgement.setOnOkClickedListener(new AlertAcknowledgement.OnOkClicked() {
+                   @Override
+                   public void status(boolean status) {
+                       if(status) {
+                           Toast.makeText(context, "True", Toast.LENGTH_SHORT).show();
+                           alertAcknowledgement.dismiss();
+                       }
+                   }
+               });
+
             }
         });
 
