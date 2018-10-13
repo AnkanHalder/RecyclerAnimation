@@ -1,12 +1,15 @@
 package com.example.jiraiya.recycler;
 
+import android.app.Activity;
 import android.content.Context;
 import android.support.annotation.NonNull;
+import android.support.v4.app.FragmentActivity;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.Collections;
 import java.util.List;
@@ -64,15 +67,34 @@ public class Adapter extends RecyclerView.Adapter<MyViewHolder> {
 
         GetSetDetails gsd = items.get(i);
         myViewHolder.text.setText(gsd.getName());
+        AnimationUtils.slide_right_to_left(myViewHolder);
 
-        if(i > pos){
-            //Scrolling Down
-            AnimationUtils.animate(myViewHolder,true);
-        }else {
-            //Scrolling Up
-            AnimationUtils.animate(myViewHolder,false);
-        }
-        pos = i;
+        myViewHolder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                CustomDialog dialog_alert =new CustomDialog();
+                dialog_alert.show(((FragmentActivity)context).getSupportFragmentManager(),"dialog");
+
+                dialog_alert.setOnOptionClickListener(new CustomDialog.OnOptionClick() {
+                    @Override
+                    public void onResult(boolean status) {
+                        if(status)
+                            Toast.makeText(context, "True", Toast.LENGTH_SHORT).show();
+                        else
+                            Toast.makeText(context, "False", Toast.LENGTH_SHORT).show();
+                    }
+                });
+            }
+        });
+
+//        if(i > pos){
+//            //Scrolling Down
+//
+//        }else {
+//            //Scrolling Up
+//            AnimationUtils.animate5(myViewHolder,false);
+//        }
+//        pos = i;
 
     }
 

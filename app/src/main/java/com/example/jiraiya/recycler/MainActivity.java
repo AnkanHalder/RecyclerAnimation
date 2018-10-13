@@ -4,6 +4,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.widget.Button;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,9 +20,11 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+
+
         recyclerView = (RecyclerView)findViewById(R.id.recycle);
 
-        for(int i=1;i<= 30;i++){
+        for(int i=1;i<= 100;i++){
           GetSetDetails getSetDetails = new GetSetDetails("Name "+i);
           data_items.add(getSetDetails);
         }

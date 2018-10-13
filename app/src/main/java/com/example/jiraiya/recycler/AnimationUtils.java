@@ -2,36 +2,91 @@ package com.example.jiraiya.recycler;
 
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
+import android.support.v4.view.animation.FastOutSlowInInterpolator;
 import android.support.v7.widget.RecyclerView;
+import android.view.animation.OvershootInterpolator;
 
 
 public class AnimationUtils {
 
-    public static void animate(RecyclerView.ViewHolder holder,boolean goesdown){
+    public static void fade(RecyclerView.ViewHolder holder,boolean goesdown){
 
+        //Fade IN or OUT
+        ObjectAnimator alpha = ObjectAnimator.ofFloat(holder.itemView,"alpha",0f,1f);
+        alpha.setDuration(1000);
+        alpha.setInterpolator(new FastOutSlowInInterpolator());
+        alpha.start();
+
+    }
+    public static void slide_from_bottom(RecyclerView.ViewHolder holder,boolean goesdown){
+
+        //Slide from Bottom
         AnimatorSet animatorSet = new AnimatorSet();
-        ObjectAnimator objectAnimatorY = ObjectAnimator.ofFloat(holder.itemView,"translationY",goesdown?400:-400,0);
-        ObjectAnimator objectAnimatorX = ObjectAnimator.ofFloat(holder.itemView,"translationX",-15,15,-10,10,-5,5,0);
-        objectAnimatorX.setDuration(1000);
-        objectAnimatorY.setDuration(1200);
-
-        animatorSet.playTogether(objectAnimatorX,objectAnimatorY);
+        ObjectAnimator objectAnimatorY = ObjectAnimator.ofFloat(holder.itemView,"translationY",goesdown?600:-600,0);
+        ObjectAnimator alpha = ObjectAnimator.ofFloat(holder.itemView,"alpha",0.1f,1f);
+        objectAnimatorY.setDuration(1000);
+        alpha.setDuration(500);
+        animatorSet.playTogether(objectAnimatorY,alpha);
+        animatorSet.setInterpolator(new OvershootInterpolator(2.7f));
         animatorSet.start();
 
+    }
+    public static void slide_from_left_and_right(RecyclerView.ViewHolder holder,boolean goesdown){
+
+        //Slide From Right or Left
+        AnimatorSet animatorSet = new AnimatorSet();
+        ObjectAnimator alpha = ObjectAnimator.ofFloat(holder.itemView,"alpha",0.1f,1f);
+        ObjectAnimator objectAnimatorX2 = ObjectAnimator.ofFloat(holder.itemView,"translationX",goesdown?500:-500,0);
+        alpha.setDuration(1000);
+        objectAnimatorX2.setDuration(1000);
+        animatorSet.playTogether(alpha,objectAnimatorX2);
+        animatorSet.setInterpolator(new OvershootInterpolator(2.0f));
+        animatorSet.start();
 
     }
-    public static void animate2(RecyclerView.ViewHolder holder,boolean goesdown){
 
-        //AnimatorSet animatorSet = new AnimatorSet();
-        //ObjectAnimator objectAnimatorY = ObjectAnimator.ofFloat(holder.itemView,"translationY",goesdown?400:-400,0);
-        ObjectAnimator objectAnimatorX = ObjectAnimator.ofFloat(holder.itemView,"translationX",goesdown?400:-400,0);
-        objectAnimatorX.setDuration(1000);
-        objectAnimatorX.start();
-       // objectAnimatorY.setDuration(1200);
+    public static void slide_right_to_left(RecyclerView.ViewHolder holder){
 
-       // animatorSet.playTogether(objectAnimatorX,objectAnimatorY);
-        //animatorSet.start();
-
+        //Slide From Right to Left
+        AnimatorSet animatorSet = new AnimatorSet();
+        ObjectAnimator alpha = ObjectAnimator.ofFloat(holder.itemView,"alpha",0.1f,1f);
+        ObjectAnimator objectAnimatorX2 = ObjectAnimator.ofFloat(holder.itemView,"translationX",500,0);
+        alpha.setDuration(1000);
+        objectAnimatorX2.setDuration(1000);
+        animatorSet.playTogether(alpha,objectAnimatorX2);
+        animatorSet.setInterpolator(new OvershootInterpolator(2.0f));
+        animatorSet.start();
 
     }
+
+    public static void slide_left_to_right(RecyclerView.ViewHolder holder){
+
+        //Slide From Left to Right
+        AnimatorSet animatorSet = new AnimatorSet();
+        ObjectAnimator alpha = ObjectAnimator.ofFloat(holder.itemView,"alpha",0.1f,1f);
+        ObjectAnimator objectAnimatorX2 = ObjectAnimator.ofFloat(holder.itemView,"translationX",-500,0);
+        alpha.setDuration(1000);
+        objectAnimatorX2.setDuration(1000);
+        animatorSet.playTogether(alpha,objectAnimatorX2);
+        animatorSet.setInterpolator(new OvershootInterpolator(2.0f));
+        animatorSet.start();
+
+    }
+
+    public static void wave(RecyclerView.ViewHolder holder,boolean goesdown){
+
+        //Scale and Attach(Wave)
+        AnimatorSet animatorSet = new AnimatorSet();
+        ObjectAnimator objectAnimatorY = ObjectAnimator.ofFloat(holder.itemView,"translationY",goesdown?600:-600,0);
+        ObjectAnimator scaleY = ObjectAnimator.ofFloat(holder.itemView,"scaleY",0.1f,1f);
+        ObjectAnimator scaleX = ObjectAnimator.ofFloat(holder.itemView,"scaleX",0.1f,1f);
+        scaleX.setDuration(1500);
+        scaleY.setDuration(1500);
+        objectAnimatorY.setDuration(1500);
+        animatorSet.playTogether(objectAnimatorY,scaleX,scaleY);
+        animatorSet.setInterpolator(new OvershootInterpolator(2.0f));
+        animatorSet.start();
+    }
+
+
 }
