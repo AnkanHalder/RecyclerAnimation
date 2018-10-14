@@ -83,14 +83,12 @@ public class Adapter extends RecyclerView.Adapter<MyViewHolder> {
 //                dialog_alert.show();
 
                final AlertAcknowledgement alertAcknowledgement = new AlertAcknowledgement(context);
-               alertAcknowledgement.setMessage("This is a better version of the simple list of items that we saw earlier" +
-                       ".Each of the items in the list has a CheckBoxbeside it." +
-                       "This is a better version of the simple list of items that we saw earlier." +
-                       "Each of the items in the list has a CheckBoxbeside it.");
+               alertAcknowledgement.setMessage("This is a better version of the simple list of items that we saw earlier");
                alertAcknowledgement.setButtonText("Okies");
                alertAcknowledgement.setTitle("Holla");
                alertAcknowledgement.setCanceledOnTouchOutside(false);
-               //alertAcknowledgement.tryy();
+               alertAcknowledgement.setAnimation("from_left");
+               alertAcknowledgement.setDuration(1700);
                alertAcknowledgement.show();
                alertAcknowledgement.setOnOkClickedListener(new AlertAcknowledgement.OnOkClicked() {
                    @Override

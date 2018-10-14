@@ -13,6 +13,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+
 @SuppressLint("ValidFragment")
 public class AlertAcknowledgement extends AppCompatDialogFragment{
 
@@ -27,6 +28,8 @@ public class AlertAcknowledgement extends AppCompatDialogFragment{
     private Button okButton;
     private String colorHEX = "#8dc63f";
     private Context context;
+    private String animation;
+    private int duration=2000;
     View vh;
 
 
@@ -84,7 +87,7 @@ public class AlertAcknowledgement extends AppCompatDialogFragment{
     }
 
     void setButtonText(String buttonText){
-        this.buttonText=buttonText;
+        this.buttonText = buttonText;
     }
 
     void setButtonColor(String colorHEX){
@@ -97,13 +100,40 @@ public class AlertAcknowledgement extends AppCompatDialogFragment{
         this.outsideClickcancelable=outsideClickcancelable;
     }
 
-    void tryy(){
-        AnimationAlert.fade(getDialog().getWindow().getDecorView());
+    void setAnimation(String animation){
+        this.animation = animation;
     }
 
+    void setDuration(int duration){
+        this.duration = duration;
+    }
+
+
     @Override
-    public void show(FragmentManager manager, String tag) {
-        super.show(manager, tag);
+    public void onStart() {
+        super.onStart();
+
+        if(animation != null) {
+            final View decorView = getDialog().getWindow().getDecorView();
+            if (decorView != null) {
+                switch (animation) {
+                    case "fade":
+                        AnimationAlert.fade(decorView).setDuration(duration).start();
+                        break;
+                    case "scale":
+                        AnimationAlert.scale(decorView).setDuration(duration).start();
+                        break;
+                    case "from_left":
+                        AnimationAlert.from_left(decorView).setDuration(duration).start();
+                        break;
+                    case "from_right":
+                        AnimationAlert.from_right(decorView).setDuration(duration).start();
+                        break;
+                }
+
+            }
+        }
+
     }
 
     public interface OnOkClicked{
