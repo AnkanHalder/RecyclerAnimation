@@ -82,23 +82,15 @@ public class Adapter extends RecyclerView.Adapter<MyViewHolder> {
 //                dialog_alert.setCanceledOnTouchOutside(false);
 //                dialog_alert.show();
 
-               final AlertAcknowledgement alertAcknowledgement = new AlertAcknowledgement(context);
-               alertAcknowledgement.setMessage("This is a better version of the simple list of items that we saw earlier");
-               alertAcknowledgement.setButtonText("Okies");
-               alertAcknowledgement.setTitle("Holla");
-               alertAcknowledgement.setCanceledOnTouchOutside(false);
-               alertAcknowledgement.setAnimation("from_left");
-               alertAcknowledgement.setDuration(1700);
-               alertAcknowledgement.show();
-               alertAcknowledgement.setOnOkClickedListener(new AlertAcknowledgement.OnOkClicked() {
-                   @Override
-                   public void status(boolean status) {
-                       if(status) {
-                           Toast.makeText(context, "True", Toast.LENGTH_SHORT).show();
-                           alertAcknowledgement.dismiss();
-                       }
-                   }
-               });
+//               AlertAcknowledgement alertAcknowledgement = new AlertAcknowledgement(context);
+//               alertAcknowledgement.setMessage("This is a better version of the simple list of items that we saw earlier");
+//               alertAcknowledgement.setButtonText("Okies");
+//               alertAcknowledgement.setTitle("Holla");
+//               alertAcknowledgement.setCanceledOnTouchOutside(false);
+//               alertAcknowledgement.setAnimation("from_left");
+//               alertAcknowledgement.setDuration(1700);
+//               alertAcknowledgement.show();
+
 
             }
         });
