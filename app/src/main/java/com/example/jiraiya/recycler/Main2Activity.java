@@ -14,12 +14,7 @@ public class Main2Activity extends AppCompatActivity {
         setContentView(R.layout.activity_main2);
 
         customView = (CustomView) findViewById(R.id.custom);
-        customView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(Main2Activity.this, "True", Toast.LENGTH_SHORT).show();
-            }
-        });
+
 
     }
 }
