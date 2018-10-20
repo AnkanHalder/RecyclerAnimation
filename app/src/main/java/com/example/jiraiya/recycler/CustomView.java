@@ -5,12 +5,14 @@ import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.LinearGradient;
 import android.graphics.Paint;
+import android.graphics.Shader;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.View;
-import android.view.animation.AnticipateOvershootInterpolator;
-import android.view.animation.DecelerateInterpolator;
+import android.view.animation.AccelerateDecelerateInterpolator;
+import android.view.animation.Interpolator;
 import android.view.animation.OvershootInterpolator;
 
 
@@ -31,7 +33,14 @@ public class CustomView extends View {
     private float height;
     private float radius ;
     private final String TAG ="CUSTOM_VIEW";
-    int change;
+    private int animationDuration;
+    private float startValue;
+    private float endValue;
+    private float animateToValue;
+    private float difference;
+    private float updateText;
+    private Shader linearGradientShader;
+    private Interpolator interpolator;
 
 
     public CustomView(Context context, AttributeSet attrs){
@@ -51,8 +60,11 @@ public class CustomView extends View {
             textColor = a.getColor(R.styleable.CustomView_textColor,Color.BLUE);
             progressBackgroundStroke = a.getFloat(R.styleable.CustomView_progressBackgroundStroke,50f);
             progressStroke = a.getFloat(R.styleable.CustomView_progressStroke,50);
-            textSize = a.getFloat(R.styleable.CustomView_textSize,50*(float)0.4);
-          //  Log.d(TAG,"applyAttributes");
+            textSize = a.getFloat(R.styleable.CustomView_textSize,50*(float)0.5);
+            animationDuration = a.getInt(R.styleable.CustomView_animationDuration,2000);
+            startValue = a.getFloat(R.styleable.CustomView_startValue,0f);
+            endValue = a.getFloat(R.styleable.CustomView_endValue,100f);
+            animateToValue = a.getFloat(R.styleable.CustomView_animateToValue,75f);
 
         }finally {
             a.recycle();
@@ -64,6 +76,9 @@ public class CustomView extends View {
         setupCirclePaint();
         setUpArcPaint();
         setUpText();
+        difference =(endValue-startValue);
+        Log.d(TAG,":"+difference);
+        interpolator = new AccelerateDecelerateInterpolator();
         animation();
      //   Log.d(TAG,"setUpPaint");
     }
@@ -88,7 +103,7 @@ public class CustomView extends View {
 
     private void setUpArcPaint() {
         arcPaint = new Paint();
-        arcPaint.setColor(progressColor);
+        //arcPaint.setColor(progressColor);
         arcPaint.setStyle(Paint.Style.STROKE);
         arcPaint.setStrokeCap(Paint.Cap.ROUND);
         arcPaint.setStrokeWidth(progressStroke);
@@ -97,63 +112,53 @@ public class CustomView extends View {
     }
 
     void getRadius(){
-      //  Log.d(TAG,"getRadius");
         width = this.getMeasuredWidth()/2 ;
-        height = this.getMeasuredHeight()/2;
-      //  Log.d(TAG,"Width "+width);
-     //   Log.d(TAG,"Height "+height);
+        height = this.getMeasuredHeight()/2 ;
+
         if(width>height)
             radius=height;
         else
             radius=width;
-        radius-=30;
-        textSize =radius*(float)0.2;
-        drawText.setTextSize(textSize);
-      //  Log.d(TAG,"Radius "+radius);
+        radius-=60;
 
+        linearGradientShader =new LinearGradient(width -radius,height-radius,width+radius, height+radius,
+                Color.BLUE, Color.RED, Shader.TileMode.MIRROR);
+        arcPaint.setShader(linearGradientShader);
     }
 
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
 
-
-        text = "Completed";
         getRadius();
         canvas.drawCircle(width,height,radius,circlePaint);
-        canvas.drawText(text+" "+(int)completed(sweepAngle) +"%", width, height, drawText);
+        canvas.drawText("Completed ", width, height-(height*(float) 0.1), drawText);
+        canvas.drawText((int)updateText+"%", width, height+(height*(float) 0.2), drawText);
         canvas.drawArc(width-radius,height-radius,width+radius,
                 height+radius,-90,
                 sweepAngle,false,arcPaint);
-
-//        if(sweepAngle <360){
-//            sweepAngle++;
-//            invalidate();
-//
-//        }
-       // Log.d(TAG,"onDraw ");
-
     }
 
     void animation(){
-      //  Log.d(TAG,"CALLING Animation IN");
-        ValueAnimator animator = ValueAnimator.ofFloat(0, 320);
-        animator.setDuration(3000);
-        animator.setInterpolator(new OvershootInterpolator(1f));
+
+        ValueAnimator animator = ValueAnimator.ofFloat(startValue,animateToValue);
+        animator.setDuration(animationDuration);
+        animator.setInterpolator(interpolator);
         animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
             public void onAnimationUpdate(ValueAnimator animation) {
-                sweepAngle = (float) animation.getAnimatedValue();
-                Log.d(TAG,"Changing "+sweepAngle);
+                updateText =(float) animation.getAnimatedValue();
+                sweepAngle = completed(updateText);
                 invalidate();
-
             }
         });
         animator.start();
     }
 
+
     private float completed(float status){
-        return status*(float)(100.0/360.0);
+        return (status-startValue)*(float)(360.0/difference);
     }
+
 
     public int getProgressBackground() {
         return progressBackground;
