@@ -13,7 +13,7 @@ import android.util.Log;
 import android.view.View;
 import android.view.animation.AccelerateDecelerateInterpolator;
 import android.view.animation.Interpolator;
-import android.view.animation.OvershootInterpolator;
+
 
 
 public class CustomView extends View {
@@ -39,8 +39,8 @@ public class CustomView extends View {
     private float animateToValue;
     private float difference;
     private float updateText;
-    private Shader linearGradientShader;
     private Interpolator interpolator;
+
 
 
     public CustomView(Context context, AttributeSet attrs){
@@ -76,8 +76,6 @@ public class CustomView extends View {
         setupCirclePaint();
         setUpArcPaint();
         setUpText();
-        difference =(endValue-startValue);
-        Log.d(TAG,":"+difference);
         interpolator = new AccelerateDecelerateInterpolator();
         animation();
      //   Log.d(TAG,"setUpPaint");
@@ -121,7 +119,7 @@ public class CustomView extends View {
             radius=width;
         radius-=60;
 
-        linearGradientShader =new LinearGradient(width -radius,height-radius,width+radius, height+radius,
+        Shader linearGradientShader = new LinearGradient(width - radius, height - radius, width + radius, height + radius,
                 Color.BLUE, Color.RED, Shader.TileMode.MIRROR);
         arcPaint.setShader(linearGradientShader);
     }
@@ -132,7 +130,7 @@ public class CustomView extends View {
 
         getRadius();
         canvas.drawCircle(width,height,radius,circlePaint);
-        canvas.drawText("Completed ", width, height-(height*(float) 0.1), drawText);
+        canvas.drawText(text+" ", width, height-(height*(float) 0.1), drawText);
         canvas.drawText((int)updateText+"%", width, height+(height*(float) 0.2), drawText);
         canvas.drawArc(width-radius,height-radius,width+radius,
                 height+radius,-90,
@@ -140,7 +138,8 @@ public class CustomView extends View {
     }
 
     void animation(){
-
+        difference =(endValue-startValue);
+        Log.d(TAG,":"+difference);
         ValueAnimator animator = ValueAnimator.ofFloat(startValue,animateToValue);
         animator.setDuration(animationDuration);
         animator.setInterpolator(interpolator);
@@ -242,4 +241,38 @@ public class CustomView extends View {
         requestLayout();
     }
 
+    public void setAnimationDuration(int animationDuration) {
+        this.animationDuration = animationDuration;
+        invalidate();
+        requestLayout();
+        animation();
+    }
+
+    public void setStartValue(float startValue) {
+        this.startValue = startValue;
+        invalidate();
+        requestLayout();
+        animation();
+    }
+
+    public void setEndValue(float endValue) {
+        this.endValue = endValue;
+        invalidate();
+        requestLayout();
+        animation();
+    }
+
+    public void setAnimateToValue(float animateToValue) {
+        this.animateToValue = animateToValue;
+        invalidate();
+        requestLayout();
+        animation();
+    }
+
+    public void setInterpolator(Interpolator interpolator) {
+        this.interpolator = interpolator;
+        invalidate();
+        requestLayout();
+        animation();
+    }
 }

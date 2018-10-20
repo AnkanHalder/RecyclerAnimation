@@ -1,5 +1,6 @@
 package com.example.jiraiya.recycler;
 
+import android.support.v4.view.animation.FastOutSlowInInterpolator;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -14,6 +15,12 @@ public class Main2Activity extends AppCompatActivity {
         setContentView(R.layout.activity_main2);
 
         customView = (CustomView) findViewById(R.id.custom);
+        customView.setText("Success");
+        customView.setInterpolator(new FastOutSlowInInterpolator());
+        customView.setStartValue(0);
+        customView.setEndValue(100);
+        customView.setAnimateToValue(90);
+
 
 
     }
