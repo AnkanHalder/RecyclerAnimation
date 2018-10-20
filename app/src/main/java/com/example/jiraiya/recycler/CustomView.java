@@ -40,6 +40,9 @@ public class CustomView extends View {
     private float difference;
     private float updateText;
     private Interpolator interpolator;
+    private int gradient_color1;
+    private int gradient_color2;
+    private Shader linearGradientShader;
 
 
 
@@ -65,6 +68,8 @@ public class CustomView extends View {
             startValue = a.getFloat(R.styleable.CustomView_startValue,0f);
             endValue = a.getFloat(R.styleable.CustomView_endValue,100f);
             animateToValue = a.getFloat(R.styleable.CustomView_animateToValue,75f);
+            gradient_color1 = a.getColor(R.styleable.CustomView_gradientColor1,Color.RED);
+            gradient_color2 = a.getColor(R.styleable.CustomView_gradientColor2,Color.BLUE);
 
         }finally {
             a.recycle();
@@ -119,8 +124,8 @@ public class CustomView extends View {
             radius=width;
         radius-=60;
 
-        Shader linearGradientShader = new LinearGradient(width - radius, height - radius, width + radius, height + radius,
-                Color.BLUE, Color.RED, Shader.TileMode.MIRROR);
+        linearGradientShader = new LinearGradient(width - radius, height - radius, width + radius, height + radius,
+                gradient_color1, gradient_color2, Shader.TileMode.CLAMP);
         arcPaint.setShader(linearGradientShader);
     }
 
@@ -274,5 +279,19 @@ public class CustomView extends View {
         invalidate();
         requestLayout();
         animation();
+    }
+
+    public void setGradient_color1(int gradient_color) {
+        this.gradient_color1 = gradient_color;
+        linearGradientShader = new LinearGradient(width - radius, height - radius, width + radius, height + radius,
+                gradient_color, gradient_color2, Shader.TileMode.CLAMP);
+        arcPaint.setShader(linearGradientShader);
+    }
+
+    public void setGradient_color2(int gradient_color2) {
+        this.gradient_color2 = gradient_color2;
+        linearGradientShader = new LinearGradient(width - radius, height - radius, width + radius, height + radius,
+                gradient_color1, gradient_color2, Shader.TileMode.CLAMP);
+        arcPaint.setShader(linearGradientShader);
     }
 }

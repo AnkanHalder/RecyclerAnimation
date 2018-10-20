@@ -13,6 +13,8 @@
         <attr name="startValue" format="float"/>
         <attr name="endValue" format="float"/>
         <attr name="animateToValue" format="float"/>
+        <attr name="gradientColor1" format="color"/>
+        <attr name="gradientColor2" format="color"/>
     </declare-styleable>
 
 </resources>
