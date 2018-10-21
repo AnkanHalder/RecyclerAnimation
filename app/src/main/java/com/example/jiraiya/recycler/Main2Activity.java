@@ -1,7 +1,5 @@
 package com.example.jiraiya.recycler;
 
-import android.graphics.Color;
-import android.support.v4.view.animation.FastOutSlowInInterpolator;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -12,6 +10,7 @@ public class Main2Activity extends AppCompatActivity {
 
 //    private CustomView customView;
     Button b1;
+    int i=0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -29,8 +28,16 @@ public class Main2Activity extends AppCompatActivity {
         loadingProgressDialog.setOnClickListener(new LoadingProgressDialog.OnClickListener() {
             @Override
             public void onResult(boolean result) {
-                if(result)
-                    Toast.makeText(Main2Activity.this, "True", Toast.LENGTH_SHORT).show();
+                if(i==0) {
+                    loadingProgressDialog.setText("This is Zero");
+                    Toast.makeText(Main2Activity.this, loadingProgressDialog.getText(), Toast.LENGTH_SHORT).show();
+                    i=1;
+                }
+                else {
+                    loadingProgressDialog.setText("This is One");
+                    Toast.makeText(Main2Activity.this, loadingProgressDialog.getText(), Toast.LENGTH_SHORT).show();
+                    i=0;
+                }
             }
         });
 

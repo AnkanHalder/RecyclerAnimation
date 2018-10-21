@@ -2,7 +2,7 @@ package com.example.jiraiya.recycler;
 
 import android.content.Context;
 import android.graphics.Canvas;
-import android.graphics.Color;
+
 import android.graphics.Paint;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;

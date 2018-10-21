@@ -34,7 +34,7 @@ public class LoadingProgressDialog extends AppCompatDialogFragment {
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         vh = getActivity().getLayoutInflater().inflate(R.layout.alert_acknowledgement_layout,null);
         text = (TextView) vh.findViewById(R.id.textView);
-        alertDialog = new AlertDialog.Builder(getActivity()).setView(vh).setTitle("Wait").create();
+        alertDialog = new AlertDialog.Builder(getActivity()).setView(vh).create();
         alertDialog.setCanceledOnTouchOutside(true);
 
         text.setOnClickListener(new View.OnClickListener() {
@@ -58,6 +58,13 @@ public class LoadingProgressDialog extends AppCompatDialogFragment {
         }
     }
 
+    public String getText() {
+        return text.getText().toString();
+    }
+
+    public void setText(String msg) {
+        this.text.setText(msg);
+    }
 
     public void setOnClickListener(OnClickListener listener){
         this.listener = listener;
