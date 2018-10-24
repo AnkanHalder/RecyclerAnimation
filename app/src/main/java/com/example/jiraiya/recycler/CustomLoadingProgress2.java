@@ -52,6 +52,7 @@ public class CustomLoadingProgress2 extends View {
         if(rad)
         getRadius();
 
+
         if(list.size() > 37) {
 
             //-------------one--------------
@@ -154,6 +155,13 @@ public class CustomLoadingProgress2 extends View {
             canvas.drawRect(width5, height - height *  list.get(index), width10, height + height *  list.get(index), rect);
 
 
+        }
+        else{
+            canvas.drawRect(width1, height - height *  (float)0.4, width6, height + height *  (float)0.4, rect);
+            canvas.drawRect(width2, height - height *  (float)0.35, width7, height + height *  (float)0.35, rect);
+            canvas.drawRect(width3, height - height *  (float)0.3, width8, height + height *  (float)0.3, rect);
+            canvas.drawRect(width4, height - height *  (float)0.25, width9, height + height *  (float)0.25, rect);
+            canvas.drawRect(width5, height - height *  (float)0.2, width10, height + height *  (float)0.2, rect);
         }
         postInvalidate();
     }
