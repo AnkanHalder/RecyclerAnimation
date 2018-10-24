@@ -6,10 +6,19 @@
     android:layout_height="match_parent"
     tools:context=".Main2Activity">
 
-    <Button
-        android:id="@+id/button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:text="Button" />
+
+    <com.example.jiraiya.recycler.CustomProgressTry
+        android:id="@+id/custom"
+        android:layout_width="300dp"
+        android:layout_height="300dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="121dp"
+        android:layout_marginEnd="43dp">
+
+    </com.example.jiraiya.recycler.CustomProgressTry>
+
+
+
+
 </RelativeLayout>

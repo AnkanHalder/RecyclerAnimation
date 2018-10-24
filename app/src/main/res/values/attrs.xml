@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <declare-styleable name="CustomView">
+    <declare-styleable name="CustomProgressTry">
         <attr name="progressBackgroundColor" format="color"/>
         <attr name="progressBackgroundStroke" format="float"/>
         <attr name="progressColor" format="color"/>
@@ -16,5 +16,7 @@
         <attr name="gradientColor1" format="color"/>
         <attr name="gradientColor2" format="color"/>
     </declare-styleable>
+
+
 
 </resources>

@@ -10,9 +10,11 @@ import android.graphics.Paint;
 import android.graphics.Shader;
 import android.util.AttributeSet;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.animation.AccelerateDecelerateInterpolator;
 import android.view.animation.Interpolator;
+import android.widget.LinearLayout;
 
 
 
@@ -20,15 +22,11 @@ public class CustomView extends View {
 
     private int progressBackground;
     private int progressColor;
-    private int textColor;
-    private String text="Completed";
     private Paint circlePaint;
     private Paint arcPaint;
-    private Paint drawText;
     private float sweepAngle=0;
     private float progressBackgroundStroke;
     private float progressStroke;
-    private float textSize;
     private float width;
     private float height;
     private float radius ;
@@ -46,30 +44,47 @@ public class CustomView extends View {
 
 
 
-    public CustomView(Context context, AttributeSet attrs){
-        super(context,attrs);
+    public CustomView(Context context, AttributeSet attrs) {
+        super(context, attrs);
+    }
+
+    public CustomView(Context context, AttributeSet attrs, int defStyleAttr) {
+        super(context, attrs, defStyleAttr);
+    }
+
+    public CustomView(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
+        super(context, attrs, defStyleAttr, defStyleRes);
+    }
+
+    void setup(Context context, AttributeSet attrs){
         applyAttributes(context,attrs);
         setUpPaint();
     }
 
 
     private void applyAttributes(Context context,AttributeSet attributeSet) {
+
+        if(context == null){
+            Log.d("ID R","Context is NULL");
+        }
+        else
+            Log.d("ID R","Context is NOT NULL");
+
         TypedArray a= context.getTheme()
-                .obtainStyledAttributes(attributeSet,R.styleable.CustomView,0,0);
+                .obtainStyledAttributes(attributeSet,R.styleable.CustomProgressTry,0,0);
         try {
-            text = a.getString(R.styleable.CustomView_text);
-            progressBackground = a.getColor(R.styleable.CustomView_progressBackgroundColor,Color.GRAY);
-            progressColor = a.getColor(R.styleable.CustomView_progressColor,Color.YELLOW);
-            textColor = a.getColor(R.styleable.CustomView_textColor,Color.BLUE);
-            progressBackgroundStroke = a.getFloat(R.styleable.CustomView_progressBackgroundStroke,50f);
-            progressStroke = a.getFloat(R.styleable.CustomView_progressStroke,50);
-            textSize = a.getFloat(R.styleable.CustomView_textSize,50*(float)0.5);
-            animationDuration = a.getInt(R.styleable.CustomView_animationDuration,2000);
-            startValue = a.getFloat(R.styleable.CustomView_startValue,0f);
-            endValue = a.getFloat(R.styleable.CustomView_endValue,100f);
-            animateToValue = a.getFloat(R.styleable.CustomView_animateToValue,75f);
-            gradient_color1 = a.getColor(R.styleable.CustomView_gradientColor1,Color.RED);
-            gradient_color2 = a.getColor(R.styleable.CustomView_gradientColor2,Color.BLUE);
+           // text = a.getString(R.styleable.CustomProgressTry_text);
+            progressBackground = a.getColor(R.styleable.CustomProgressTry_progressBackgroundColor,Color.GRAY);
+            progressColor = a.getColor(R.styleable.CustomProgressTry_progressColor,Color.YELLOW);
+            progressBackgroundStroke = a.getFloat(R.styleable.CustomProgressTry_progressBackgroundStroke,50f);
+            progressStroke = a.getFloat(R.styleable.CustomProgressTry_progressStroke,50);
+            animationDuration = a.getInt(R.styleable.CustomProgressTry_animationDuration,2000);
+            startValue = a.getFloat(R.styleable.CustomProgressTry_startValue,0f);
+            endValue = a.getFloat(R.styleable.CustomProgressTry_endValue,100f);
+            animateToValue = a.getFloat(R.styleable.CustomProgressTry_animateToValue,75f);
+            gradient_color1 = a.getColor(R.styleable.CustomProgressTry_gradientColor1,Color.RED);
+            gradient_color2 = a.getColor(R.styleable.CustomProgressTry_gradientColor2,Color.BLUE);
+
 
         }finally {
             a.recycle();
@@ -77,31 +92,24 @@ public class CustomView extends View {
 
     }
 
+
+
     private void setUpPaint() {
         setupCirclePaint();
         setUpArcPaint();
-        setUpText();
         interpolator = new AccelerateDecelerateInterpolator();
         animation();
-     //   Log.d(TAG,"setUpPaint");
+        //   Log.d(TAG,"setUpPaint");
     }
 
-    private void setUpText() {
-        drawText = new Paint();
-        drawText.setColor(textColor);
-        drawText.setTextAlign(Paint.Align.CENTER);
-        drawText.setTextSize(textSize);
-        drawText.setFakeBoldText(true);
-      //  Log.d(TAG,"setUpText");
 
-    }
 
     private void setupCirclePaint() {
         circlePaint = new Paint();
         circlePaint.setColor(progressBackground);
         circlePaint.setStyle(Paint.Style.STROKE);
         circlePaint.setStrokeWidth(progressBackgroundStroke);
-      //  Log.d(TAG,"setupCirclePaint");
+        //  Log.d(TAG,"setupCirclePaint");
     }
 
     private void setUpArcPaint() {
@@ -110,7 +118,7 @@ public class CustomView extends View {
         arcPaint.setStyle(Paint.Style.STROKE);
         arcPaint.setStrokeCap(Paint.Cap.ROUND);
         arcPaint.setStrokeWidth(progressStroke);
-      //  Log.d(TAG,"setUpArcPaint");
+        //  Log.d(TAG,"setUpArcPaint");
 
     }
 
@@ -135,8 +143,6 @@ public class CustomView extends View {
 
         getRadius();
         canvas.drawCircle(width,height,radius,circlePaint);
-        canvas.drawText(text+" ", width, height-(height*(float) 0.1), drawText);
-        canvas.drawText((int)updateText+"%", width, height+(height*(float) 0.2), drawText);
         canvas.drawArc(width-radius,height-radius,width+radius,
                 height+radius,-90,
                 sweepAngle,false,arcPaint);
@@ -184,19 +190,6 @@ public class CustomView extends View {
         requestLayout();
     }
 
-    public int getTextColor() {
-        return textColor;
-    }
-
-    public void setTextColor(int textColor) {
-        this.textColor = textColor;
-        invalidate();
-        requestLayout();
-    }
-
-    public String getText() {
-        return text;
-    }
 
     public float getProgressBackgroundStroke() {
         return progressBackgroundStroke;
@@ -218,15 +211,6 @@ public class CustomView extends View {
         requestLayout();
     }
 
-    public float getTextSize() {
-        return textSize;
-    }
-
-    public void setTextSize(float textSize) {
-        this.textSize = textSize;
-        invalidate();
-        requestLayout();
-    }
 
     public void setWidth(float width) {
         this.width = width;
@@ -236,12 +220,6 @@ public class CustomView extends View {
 
     public void setHeight(float height) {
         this.height = height;
-        invalidate();
-        requestLayout();
-    }
-
-    public void setText(String text) {
-        this.text = text;
         invalidate();
         requestLayout();
     }
