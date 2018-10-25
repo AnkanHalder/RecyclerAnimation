@@ -34,6 +34,7 @@ public class CustomView extends View {
     private int animationDuration;
     private float startValue;
     private float endValue;
+    private float change;
     private float animateToValue;
     private float difference;
     private float updateText;
@@ -98,7 +99,7 @@ public class CustomView extends View {
         setupCirclePaint();
         setUpArcPaint();
         interpolator = new AccelerateDecelerateInterpolator();
-        animation();
+        animation(0.0f);
         //   Log.d(TAG,"setUpPaint");
     }
 
@@ -148,11 +149,12 @@ public class CustomView extends View {
                 sweepAngle,false,arcPaint);
     }
 
-    void animation(){
+    void animation(float animateToValue){
         difference =(endValue-startValue);
-        Log.d(TAG,":"+difference);
-        ValueAnimator animator = ValueAnimator.ofFloat(startValue,animateToValue);
-        animator.setDuration(animationDuration);
+       // Log.d(TAG,":"+difference);
+
+        ValueAnimator animator = ValueAnimator.ofFloat(animateToValue-(animateToValue-change),animateToValue);
+        animator.setDuration(1000);
         animator.setInterpolator(interpolator);
         animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
             public void onAnimationUpdate(ValueAnimator animation) {
@@ -162,6 +164,8 @@ public class CustomView extends View {
             }
         });
         animator.start();
+        change = animateToValue;
+       // invalidate();
     }
 
 
@@ -228,35 +232,34 @@ public class CustomView extends View {
         this.animationDuration = animationDuration;
         invalidate();
         requestLayout();
-        animation();
+        animation(0.0f);
     }
 
     public void setStartValue(float startValue) {
         this.startValue = startValue;
         invalidate();
         requestLayout();
-        animation();
+        animation(0.0f);
     }
 
     public void setEndValue(float endValue) {
         this.endValue = endValue;
         invalidate();
         requestLayout();
-        animation();
+        animation(0.0f);
     }
 
     public void setAnimateToValue(float animateToValue) {
         this.animateToValue = animateToValue;
-        invalidate();
-        requestLayout();
-        animation();
+        animation(animateToValue);
+       // invalidate();
     }
 
     public void setInterpolator(Interpolator interpolator) {
         this.interpolator = interpolator;
         invalidate();
         requestLayout();
-        animation();
+        animation(0.0f);
     }
 
     public void setGradient_color1(int gradient_color) {

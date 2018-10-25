@@ -57,6 +57,10 @@ public class CustomProgressTry extends FrameLayout {
         Log.d("ID ","ID rightTextView "+rightTextView);
     }
 
+    public void animate_to(float val){
+        customView.setAnimateToValue(val);
+    }
+
 
     public String getTopText() {
         return topText;

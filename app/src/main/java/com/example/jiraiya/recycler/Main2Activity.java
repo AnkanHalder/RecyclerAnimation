@@ -1,6 +1,7 @@
 package com.example.jiraiya.recycler;
 
 import android.graphics.Color;
+import android.os.Handler;
 import android.support.v4.view.animation.FastOutSlowInInterpolator;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -12,7 +13,9 @@ public class Main2Activity extends AppCompatActivity {
 
     private CustomProgressTry customView;
     Button b1;
-    int i=0;
+    float i=0;
+    Runnable runnable;
+    Handler handler= new Handler();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -37,16 +40,40 @@ public class Main2Activity extends AppCompatActivity {
 //            }
 //        });
 
-
-
-
         customView = (CustomProgressTry) findViewById(R.id.custom);
 
-        for(int i=0; i<100;i++) {
-            customView.setButtomText("Status "+i+"%");
+        runnable = new Runnable() {
+            @Override
+            public void run() {
+                if(i>10 && i<15)
+                    i+=20;
+                if(i>30 && i<45)
+                 i+=50;
 
-        }
 
+                customView.setButtomText("Completed " + (int)i + "%");
+                customView.animate_to(i);
+                i++;
+                if(i<101)
+                    update();
+            }
+        };
 
+    }
+
+    void update(){
+        handler.postDelayed(runnable,1000);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        update();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        handler.removeCallbacks(runnable);
     }
 }
